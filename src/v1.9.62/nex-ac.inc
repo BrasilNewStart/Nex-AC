@@ -9,9 +9,9 @@
 
 #if !defined FILTERSCRIPT
 
-#if !defined DEBUG
-	#define DEBUG
-#endif
+// #if !defined DEBUG
+// 	#define DEBUG
+// #endif
 
 #if !defined NO_SUSPICION_LOGS
 	//#define NO_SUSPICION_LOGS
@@ -23,7 +23,7 @@
 #endif
 
 #if !defined _nex_ac_lang_included
-	#include <nex-ac_en.lang>	//Localization
+	#include <nex-ac_pt_br.lang>	//Localization
 #endif
 
 #define	NEX_AC_VERSION				"1.9.62"
@@ -2483,7 +2483,7 @@ stock acc_EnableStuntBonusForPlayer(playerid, enable)
 
 stock orig_ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[], button2[]) return ShowPlayerDialog(playerid, dialogid, style, caption, info, button1, button2);
 
-stock acc_ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[], button2[])
+stock acc_ShowPlayerDialog(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[])
 {
 	if(ShowPlayerDialog(playerid, dialogid, style, caption, info, button1, button2))
 	{
@@ -4105,9 +4105,9 @@ public OnPlayerDeath(playerid, killerid, reason)
 #endif
 
 #if defined OnPlayerWeaponShot
-	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
+	hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 #else
-	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
+	hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
@@ -4161,9 +4161,9 @@ public OnPlayerDeath(playerid, killerid, reason)
 #endif
 
 #if defined OnPlayerWeaponShot
-	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+	hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 #else
-	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
+	hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
@@ -8431,7 +8431,7 @@ public OnVehicleStreamIn(vehicleid, forplayerid)
 #endif
 
 #if defined OnPlayerGiveDamageActor
-	public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid, bodypart)
+	hook OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid, bodypart)
 	{
 		if(ACInfo[playerid][acKicked] > 0) return 1;
 		if(ACInfo[playerid][acACAllow][47] &&
@@ -9402,7 +9402,7 @@ ac_fpublic ac_Timer(playerid)
 #if !defined OnCheatDetected
 	//Don't make changes in this public
 	//To customize punishments, declare 'OnCheatDetected' in your script
-	ac_fpublic ac_OnCheatDetected(playerid, ip_address[], type, code)
+	ac_fpublic ac_OnCheatDetected(playerid, const ip_address[], type, code)
 	{
 		if(type)
 		{
@@ -9868,7 +9868,7 @@ static ac_FloodDetect(playerid, publicid)
 	return 0;
 }
 
-static ac_KickWithCode(playerid, ip_address[], type, code, code2 = 0)
+static ac_KickWithCode(playerid, const ip_address[], type, code, code2 = 0)
 {
 	if(type == 0 && (!IsPlayerConnected(playerid) || ACInfo[playerid][acKicked] > 0)) return 0;
 	#if AC_USE_STATISTICS
